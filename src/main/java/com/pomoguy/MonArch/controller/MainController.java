@@ -9,11 +9,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/")
 public class MainController {
 
 
     @GetMapping
+    public String healthCheck(Map<String, Object> model){
+
+        return "main";
+    }
+
+
+    @GetMapping("/main")
     public String mainPage(Map<String, Object> model){
 
         return "main";

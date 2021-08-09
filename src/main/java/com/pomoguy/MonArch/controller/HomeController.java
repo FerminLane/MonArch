@@ -11,30 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
-@RequestMapping
+@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
     private MessageRepo messageRepo;
 
-    @GetMapping("/home")
-    public String mainPage(Map<String, Object> model){
-        Iterable<Message> messages = messageRepo.findAll();
-        model.put("messages", messages);
-        return "home";
-    }
-
-
-    @PostMapping("/home")
-    public String addMessage(@AuthenticationPrincipal User user, @RequestParam String message, @RequestParam String tag, Map<String,Object> model){
-        messageRepo.save(new Message(message,tag, user));
-        Iterable<Message> messages = messageRepo.findAll();
-        model.put("messages", messages);
-        return "home";
-    }
-
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String,Object> model){
+    @GetMapping
+    public String mainPage(@RequestParam(required = false,defaultValue = "") String filter, Map<String, Object> model){
         Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty()) {
@@ -43,6 +27,17 @@ public class HomeController {
             messages = messageRepo.findAll();
         }
 
+        model.put("messages", messages);
+        model.put("filter", filter);
+
+        return "home";
+    }
+
+
+    @PostMapping
+    public String addMessage(@AuthenticationPrincipal User user, @RequestParam String message, @RequestParam String tag, Map<String,Object> model){
+        messageRepo.save(new Message(message,tag, user));
+        Iterable<Message> messages = messageRepo.findAll();
         model.put("messages", messages);
         return "home";
     }
