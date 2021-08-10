@@ -3,8 +3,8 @@
 
 
 <@com.page>
-    <Title>Вход в систему</Title>
-    <@a.logout />
+
+
     <a href="/home">Домашняя страница</a>
 
 </@com.page>

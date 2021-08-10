@@ -3,9 +3,7 @@
 
 <@com.page>
 
-    <Title>Вход в систему</Title>
-    <@a.login "/login"/>
-
+    <@a.login/>
     <a href="/registration">Регистрация</a>
 
 </@com.page>
