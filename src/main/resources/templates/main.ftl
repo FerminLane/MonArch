@@ -1,10 +1,5 @@
-<#import "parts/common.ftl" as com>
-<#import "parts/auth.ftl" as a>
+<#import "parts/navbar.ftl" as nav>
 
+<@nav.nav>
 
-<@com.page>
-
-
-    <a href="/home">Домашняя страница</a>
-
-</@com.page>
+</@nav.nav>

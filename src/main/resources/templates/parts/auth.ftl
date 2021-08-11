@@ -9,9 +9,9 @@
 </#macro>
 
 <#macro logout>
-    <form action="/logout" method="post">
+    <form c  class="dropdown-item" action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <div><input type="submit" value="Logout"/></div>
+        <div><input class="dropdown-item" type="submit" value="Logout"/></div>
     </form>
 </#macro>
 

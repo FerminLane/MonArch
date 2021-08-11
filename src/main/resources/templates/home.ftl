@@ -1,7 +1,7 @@
-<#import "parts/common.ftl" as com>
-<#import "parts/auth.ftl" as a>
+<#import "parts/navbar.ftl" as nav>
 
-<@com.page>
+<@nav.nav>
+
     <div>
         <span><a href="/user">Список пользователей</a> </span>
         <form method="post" enctype="multipart/form-data">
@@ -26,14 +26,14 @@
             <c>${txt.text}</c>
             <d>${txt.tag}</d>
             <div>
-                <img src="/img/${txt.fileName}">
                 <#if txt.filename??>
-
+                    <img src="/img/${txt.fileName}">
                 </#if>
             </div>
         </div>
     <#else>
         Сообщений нет
     </#list>
-</@com.page>
+</@nav.nav>
+
 

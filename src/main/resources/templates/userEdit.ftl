@@ -1,6 +1,6 @@
-<#import "parts/common.ftl" as com>
+<#import "parts/navbar.ftl" as nav>
 
-<@com.page>
+<@nav.nav>
     <div>Редактировать пользователя</div>
     <form action="/user" method="post">
         <input type="text" name="username" value="${user.username}">
@@ -14,4 +14,4 @@
         <div><input type="submit" value="Сохранить"/></div>
 
     </form>
-</@com.page>
+</@nav.nav>

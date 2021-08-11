@@ -1,0 +1,32 @@
+ <textarea></textarea>
+    <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+    <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+
+
+
+    <div class="container mt-4 mb-4">
+            <div class="row justify-content-md-center">
+                <div class="col-md-12 col-lg-8">
+                    <h1 class="h2 mb-4">Submit issue</h1>
+                    <label>Describe the issue in detail</label>
+                    <div class="form-group">
+                        <textarea id="editor"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+        <script>
+            tinymce.init({
+                selector: 'textarea#editor',
+                menubar: false
+            });
+        </script>
+
+        wysiwyg
+
+
+        <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://www.learningaboutelectronics.com/Articles/Headache-and-low-back-pain.pptx' width='80%' height='565px' frameborder='0'> </iframe>

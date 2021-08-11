@@ -1,6 +1,6 @@
-<#import "parts/common.ftl" as com>
+<#import "parts/navbar.ftl" as nav>
 
-<@com.page>
+<@nav.nav>
     Список пользователей
     <table>
 
@@ -22,4 +22,5 @@
         </#list>
         </tbody>
     </table>
-</@com.page>
+
+</@nav.nav>

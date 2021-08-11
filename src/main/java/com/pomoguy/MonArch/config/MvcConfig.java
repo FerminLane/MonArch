@@ -12,7 +12,8 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
-    private String prefix;
+    @Value("${presentations.path}")
+    private String presentationsPath;
 
 
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -22,6 +23,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String prefix;
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             prefix = "file:///";
         } else {
@@ -33,5 +35,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations(prefix + uploadPath + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/presentations/**")
+                .addResourceLocations(prefix + presentationsPath + "/");
     }
 }
