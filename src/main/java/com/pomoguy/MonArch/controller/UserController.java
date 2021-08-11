@@ -45,14 +45,14 @@ public class UserController {
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
-        userRepo.save(user);
+
         user.getRoles().clear();
         for (String key : form.keySet()) {
             if (roles.contains(key)) {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
-
+        userRepo.save(user);
         return "redirect:/user";
     }
 
