@@ -1,5 +1,6 @@
 <#import "auth.ftl" as a>
 <#import "common.ftl" as com>
+<#include "security.ftl">
 
 <#macro nav>
     <@com.page>
@@ -29,60 +30,26 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Реестр систем</a>
                     </li>
-
-                    <#if Session.SPRING_SECURITY_CONTEXT??>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Здравствуйте, ${Session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getUsername()}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <@a.logout/>
-                            </div>
-                        </li>
-
-                    <#else>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Login
-                            </a>
-                            <div class="dropdown-menu">
-                                <form class="px-4 py-3" action="/login" method="post">
-                                    <div class="form-group">
-                                        <label for="exampleDropdownFormEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleDropdownFormEmail1"
-                                               name="username"
-                                               placeholder="email@example.com">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleDropdownFormPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleDropdownFormPassword1"
-                                               name="password"
-                                               placeholder="Password">
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                                        <label class="form-check-label" for="dropdownCheck">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                                    <button type="submit" class="btn btn-primary">Sign in</button>
-                                </form>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/registration">New around here? Sign up</a>
-                                <a class="dropdown-item" href="#">Forgot password?</a>
-                            </div>
-                        </li>
-                    </#if>
-
                 </ul>
+
+                <div class="navbar-nav">
+                    <#if known>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Здравствуйте, ${name}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <@a.logout/>
+                        </div>
+                        <#else>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">Вход</a>
+                            </li>
+                    </#if>
+                </div>
             </div>
         </nav>
-        <div class="container">
+        <div class="container mt-3">
             <#nested>
         </div>
     </@com.page>

@@ -2,38 +2,63 @@
 
 <@nav.nav>
 
-    <div>
-        <span><a href="/user">Список пользователей</a> </span>
-        <form method="post" enctype="multipart/form-data">
-            <input type="text" name="text" placeholder="Введите сообщение">
-            <input type="text" name="tag" placeholder="Tag">
-            <input type="file" name="file">
-            <button type="submit">Добавить</button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+    <div class="form-row"></div>
+    <div class="form-group col-md-6">
+        <form method="get" action="/home" class="form-inline">
+            <input type="text" name="filter" class="form-control" value="${filter!}" placeholder="Search by tag">
+            <button type="submit" class="btn btn-primary ml-2">Найти</button>
         </form>
+    </div>
     </div>
 
 
-    <div>Список сообщений</div>
-    <form method="get" action="/home">
-        <input type="text" name="filter" value="${filter!}">
-        <button type="submit">Найти</button>
-    </form>
-    <#list texts as txt>
-
-        <div>
-            <a>${txt.authorName}</a>
-            <c>${txt.text}</c>
-            <d>${txt.tag}</d>
-            <div>
-                <#if txt.filename??>
-                    <img src="/img/${txt.fileName}">
-                </#if>
-            </div>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Добавить запись
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="form-group" mt-2>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="text" placeholder="Введите сообщение">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="tag" placeholder="Tag">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="customFile">
+                        <label class="custom-file-label for=" customFile">Выбрать файл</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary ml-2">Добавить</button>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+            </form>
         </div>
-    <#else>
-        Сообщений нет
-    </#list>
+    </div>
+
+    <div class="card-columns">
+        <#list texts as txt>
+            <div class="card my-3">
+                <div>
+                    <img src="/img/${txt.fileName}" class="card-img-top">
+                    <#if txt.filename??>
+
+                    </#if>
+                </div>
+                <div class="m-2">
+                    ${txt.text}
+                </div>
+                <div class="card-footer text-muted">
+                    ${txt.authorName}
+                </div>
+            </div>
+        <#else>
+            Сообщений нет
+        </#list>
+    </div>
 </@nav.nav>
 
 
