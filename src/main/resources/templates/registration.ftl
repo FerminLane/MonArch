@@ -4,8 +4,8 @@
 <@com.page>
 
     <div>Регистрация пользователя</div>
-    ${message!}
-    <@a.registration/>
 
+    <@a.registration/>
+    ${message!}
 
 </@com.page>
