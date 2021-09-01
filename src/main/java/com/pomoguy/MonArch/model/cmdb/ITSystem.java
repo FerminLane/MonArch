@@ -1,20 +1,29 @@
-package com.pomoguy.MonArch.model;
+package com.pomoguy.MonArch.model.cmdb;
 
+
+import com.pomoguy.MonArch.model.MonArchCommon;
+import com.pomoguy.MonArch.model.User;
 
 import javax.persistence.*;
 
 @Entity
-public class ITSystem {
+public class ITSystem extends MonArchCommon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String name;
-    private String status;
     private String buildingArea;
     private String passportName;
-    private String description;
+    private String owner;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sol_class_id")
+    private SolutionClass solutionClass;
+
+
+
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -27,22 +36,6 @@ public class ITSystem {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getBuildingArea() {
@@ -69,13 +62,6 @@ public class ITSystem {
         this.author = author;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 
 

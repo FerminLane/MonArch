@@ -1,20 +1,13 @@
 package com.pomoguy.MonArch.controller;
 
 import com.pomoguy.MonArch.dao.ITSystemRepo;
-import com.pomoguy.MonArch.dao.UserRepo;
-import com.pomoguy.MonArch.model.ITSystem;
-import com.pomoguy.MonArch.model.Role;
+import com.pomoguy.MonArch.model.cmdb.ITSystem;
 import com.pomoguy.MonArch.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -44,6 +37,9 @@ public class ITSystemController {
                               Model model) {
 
         ITSystem itSystem = new ITSystem(name,user, description, buildingArea);
+
+        itSystem.setCreateDateTime();
+        itSystem.setUpdateDateTime();
         itSystemRepo.save(itSystem);
         return "redirect:/itsystem/";
     }
@@ -64,10 +60,23 @@ public class ITSystemController {
 
 
     @PostMapping("/edit/{system}")
-    public String itSystemEdit(@PathVariable ITSystem itSystem, Model model) {
+    public String itSystemEdit(@PathVariable ITSystem system,
+                               @AuthenticationPrincipal User user,
+                               @RequestParam String name,
+                               @RequestParam String description,
+                               @RequestParam String buildingArea,
+                               Model model) {
 
-        itSystemRepo.save(itSystem);
-        return "redirect:/itsystem/" + itSystem.getId();
+        system.setDescription(description);
+        system.setName(name);
+        system.setAuthor(user);
+        system.setBuildingArea(buildingArea);
+        system.setUpdateDateTime();
+
+
+
+        itSystemRepo.save(system);
+        return "redirect:/itsystem/" + system.getId();
     }
 
 }

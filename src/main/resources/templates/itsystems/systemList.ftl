@@ -6,7 +6,7 @@
         <div class="col-4">
             <form>
                 <div class="form-group">
-                    <a class="btn btn-primary" href="/itsystem/add" role="button">Добавить новую систему</a>
+                    <a class="btn btn-secondary" href="/itsystem/add" role="button">Добавить новую систему</a>
                 </div>
             </form>
         </div>

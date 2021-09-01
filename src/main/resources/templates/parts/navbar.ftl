@@ -25,10 +25,16 @@
                         <a class="nav-link" href="#">Архитектурный комитет</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#">Архитектурный долг</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Регистрация сервиса</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/itsystem">Реестр систем</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/settings">Настройки</a>
                     </li>
                 </ul>
 

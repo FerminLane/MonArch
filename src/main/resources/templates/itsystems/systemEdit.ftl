@@ -5,11 +5,13 @@ isEditMode = itsystem ??
 <#if isEditMode>
     <#assign
     name = itsystem.getName()
+    description = itsystem.getDescription()
     buildingArea = itsystem.getBuildingArea()
     >
 <#else>
     <#assign
     name = ""
+    description = "Введите описание"
     buildingArea = ""
     >
 </#if>
@@ -24,7 +26,7 @@ isEditMode = itsystem ??
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание системы</label>
-            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3">"${description}"</textarea>
         </div>
 
         <div class="form-group">
