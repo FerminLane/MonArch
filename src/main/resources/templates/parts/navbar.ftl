@@ -28,7 +28,7 @@
                         <a class="nav-link" href="#">Регистрация сервиса</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Реестр систем</a>
+                        <a class="nav-link" href="/itsystem">Реестр систем</a>
                     </li>
                 </ul>
 
