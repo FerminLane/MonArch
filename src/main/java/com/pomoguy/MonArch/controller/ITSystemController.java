@@ -3,11 +3,18 @@ package com.pomoguy.MonArch.controller;
 import com.pomoguy.MonArch.dao.ITSystemRepo;
 import com.pomoguy.MonArch.model.cmdb.ITSystem;
 import com.pomoguy.MonArch.model.User;
+import org.hibernate.envers.AuditReaderFactory;
+import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -17,6 +24,9 @@ public class ITSystemController {
 
     @Autowired
     private ITSystemRepo itSystemRepo;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @GetMapping
     public String itSystemList(Model model) {
@@ -40,15 +50,27 @@ public class ITSystemController {
 
         itSystem.setCreateDateTime();
         itSystem.setUpdateDateTime();
+        itSystem.setUpdatedBy(user.getUsername());
         itSystemRepo.save(itSystem);
         return "redirect:/itsystem/";
     }
 
 
-    @GetMapping("{system}")
-    public String itSystemForm(@PathVariable ITSystem system, Model model) {
+    @GetMapping("{system}/profile")
+    public String itSystemProfile(@PathVariable ITSystem system, Model model) {
         model.addAttribute("itsystem", system);
-        return "itsystems/systemForm";
+        return "itsystems/form/systemProfile";
+    }
+
+
+    @GetMapping("{system}/history")
+    public String itSystemHistory(@PathVariable ITSystem system, Model model) {
+        AuditQuery query = AuditReaderFactory.get(em).createQuery().forRevisionsOfEntity(ITSystem.class,false,false);
+        List<Object []> queryList = query.getResultList();
+        List<Object> audit = queryList.stream().map(item -> item[0]).collect(Collectors.toList());
+        model.addAttribute("itsystem", system);
+        model.addAttribute("audit", audit);
+        return "itsystems/form/systemHistory";
     }
 
 
@@ -69,14 +91,12 @@ public class ITSystemController {
 
         system.setDescription(description);
         system.setName(name);
-        system.setAuthor(user);
         system.setBuildingArea(buildingArea);
         system.setUpdateDateTime();
-
-
+        system.setUpdatedBy(user.getUsername());
 
         itSystemRepo.save(system);
-        return "redirect:/itsystem/" + system.getId();
+        return "redirect:/itsystem/" + system.getId() + "/profile";
     }
 
 }

@@ -15,17 +15,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/main">Главная</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home">Демо_Сообщения</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="demo" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Демо
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/home">Демо_Сообщения</a>
+                            <a class="dropdown-item" href="/user">Демо_Пользователи</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user">Демо_Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Архитектурный комитет</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Архитектурный долг</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="architecture" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Управление архитектурой
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Архитектурный комитет</a>
+                            <a class="dropdown-item" href="#">Архитектурный долг</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Регистрация сервиса</a>
@@ -44,9 +50,11 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Здравствуйте, ${name}
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li>
                             <@a.logout/>
-                        </div>
+                            </li>
+                        </ul>
                         <#else>
                             <li class="nav-item">
                                 <a class="nav-link" href="/login">Вход</a>

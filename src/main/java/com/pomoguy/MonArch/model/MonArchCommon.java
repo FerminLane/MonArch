@@ -1,6 +1,8 @@
 package com.pomoguy.MonArch.model;
 
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,11 +13,13 @@ import java.util.Calendar;
 
 
 @MappedSuperclass
+@Audited
 public abstract class MonArchCommon {
 
     protected String name;
     protected Timestamp createDateTime;
     protected Timestamp updateDateTime;
+    protected String updatedBy;
     protected String serviceFields;
     protected String description;
     protected String status;
@@ -67,4 +71,13 @@ public abstract class MonArchCommon {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 }
+

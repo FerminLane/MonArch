@@ -17,7 +17,7 @@
                         <h5 class="card-title">"${itsystem.name}"</h5>
                         <h6 class="badge badge-pill badge-success">"${itsystem.buildingArea}"</h6>
                         <p class="card-text">"${itsystem.description}"</p>
-                        <a href="/itsystem/${itsystem.id}" class="card-link">Открыть карточку системы</a>
+                        <a href="/itsystem/${itsystem.id}/profile" class="card-link">Открыть карточку системы</a>
                     </div>
                 </div>
             <#else>

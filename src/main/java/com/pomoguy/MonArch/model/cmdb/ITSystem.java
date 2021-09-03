@@ -3,10 +3,14 @@ package com.pomoguy.MonArch.model.cmdb;
 
 import com.pomoguy.MonArch.model.MonArchCommon;
 import com.pomoguy.MonArch.model.User;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RevisionNumber;
 
 import javax.persistence.*;
 
 @Entity
+@Audited
 public class ITSystem extends MonArchCommon {
 
     @Id
@@ -15,11 +19,10 @@ public class ITSystem extends MonArchCommon {
 
     private String buildingArea;
     private String passportName;
-    private String owner;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sol_class_id")
-    private SolutionClass solutionClass;
+
+    //private String owner;
+
 
 
 
@@ -27,6 +30,7 @@ public class ITSystem extends MonArchCommon {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @NotAudited
     private User author;
 
 
