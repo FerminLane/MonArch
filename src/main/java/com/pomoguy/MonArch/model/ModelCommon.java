@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 @MappedSuperclass
 @Audited
-public abstract class MonArchCommon {
+public abstract class ModelCommon {
 
     protected String name;
     protected Timestamp createDateTime;

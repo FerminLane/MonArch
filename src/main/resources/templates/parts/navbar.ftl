@@ -36,8 +36,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Регистрация сервиса</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/itsystem">Реестр систем</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="architecture" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Архитектурные справочники
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Информационные системы</a>
+                            <a class="dropdown-item" href="/products">Продукты</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/settings">Настройки</a>

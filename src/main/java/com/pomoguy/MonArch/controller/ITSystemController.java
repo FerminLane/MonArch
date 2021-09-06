@@ -1,7 +1,7 @@
 package com.pomoguy.MonArch.controller;
 
 import com.pomoguy.MonArch.dao.ITSystemRepo;
-import com.pomoguy.MonArch.model.cmdb.ITSystem;
+import com.pomoguy.MonArch.model.archcatalog.ITSystem;
 import com.pomoguy.MonArch.model.User;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditQuery;
@@ -29,13 +29,13 @@ public class ITSystemController {
     private EntityManager em;
 
     @GetMapping
-    public String itSystemList(Model model) {
+    public String itSystemGetList(Model model) {
         model.addAttribute("itsystems", itSystemRepo.findAll());
         return "itsystems/systemList";
     }
 
     @GetMapping("/add")
-    public String itSystemFormAdd(Model model) {
+    public String itSystemGetFormAdd(Model model) {
         return "itsystems/systemEdit";
     }
 
@@ -57,14 +57,14 @@ public class ITSystemController {
 
 
     @GetMapping("{system}/profile")
-    public String itSystemProfile(@PathVariable ITSystem system, Model model) {
+    public String itSystemGetProfile(@PathVariable ITSystem system, Model model) {
         model.addAttribute("itsystem", system);
         return "itsystems/form/systemProfile";
     }
 
 
     @GetMapping("{system}/history")
-    public String itSystemHistory(@PathVariable ITSystem system, Model model) {
+    public String itSystemGetHistory(@PathVariable ITSystem system, Model model) {
         AuditQuery query = AuditReaderFactory.get(em).createQuery().forRevisionsOfEntity(ITSystem.class,false,false);
         List<Object []> queryList = query.getResultList();
         List<Object> audit = queryList.stream().map(item -> item[0]).collect(Collectors.toList());
@@ -73,9 +73,17 @@ public class ITSystemController {
         return "itsystems/form/systemHistory";
     }
 
+    @GetMapping("{system}/docs")
+    public String itSystemGetDocs(@PathVariable ITSystem system, Model model) {
+        List<Object> docs = null;
+        model.addAttribute("docs", docs);
+        model.addAttribute("itsystem", system);
+        return "itsystems/form/systemDocs";
+    }
+
 
     @GetMapping("/edit/{system}")
-    public String itSystemFormEdit(@PathVariable ITSystem system, Model model) {
+    public String itSystemGetFormEdit(@PathVariable ITSystem system, Model model) {
         model.addAttribute("itsystem", system);
         return "itsystems/systemEdit";
     }

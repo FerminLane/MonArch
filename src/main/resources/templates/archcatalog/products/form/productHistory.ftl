@@ -1,6 +1,6 @@
-<#import "*/itsystems/form/systemForm.ftl" as sys>
+<#import "*/productForm.ftl" as prod>
 
-<@sys.sys>
+<@prod.prod>
     <div>
         <table class="table">
             <caption>История изменений</caption>
@@ -14,17 +14,19 @@
             </thead>
             <tbody>
             <#list audit as auditelement>
+
                 <tr>
-                    <td>${auditelement.name}</td>
-                    <td>${auditelement.updateDateTime}</td>
-                    <td>${auditelement.updatedBy}</td>
+                    <td>${auditelement[0].name}</td>
+                    <td>${auditelement[0].updateDateTime}</td>
+                    <td>${auditelement[0].updatedBy}</td>
                     <td>
-                        <a href="#" class="card-link">Подробнее</a>
+                        <a href="history/${auditelement[1].id}/profile" class="card-link">Подробнее</a>
                     </td>
                 </tr>
+
             </#list>
             </tbody>
         </table>
 
     </div>
-</@sys.sys>
+</@prod.prod>

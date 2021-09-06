@@ -1,7 +1,10 @@
 <#import "*/parts/navbar.ftl" as nav>
+<#assign
+history = isHistoryObj
 
+>
 
-<#macro sys>
+<#macro prod>
     <@nav.nav>
         <div class="row">
             <div class="col-3">
@@ -12,9 +15,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="docs">Документы</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="history">История изменений</a>
-                    </li>
+
+                    <#if history>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="">История изменений</a>
+                        </li>
+                        <#else>
+                            <li class="nav-item">
+                                <a class="nav-link" href="history">История изменений</a>
+                            </li>
+                    </#if>
                     </ul>
                 </nav>
             </div>

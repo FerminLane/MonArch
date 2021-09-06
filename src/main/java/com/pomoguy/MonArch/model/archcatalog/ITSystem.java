@@ -1,17 +1,16 @@
-package com.pomoguy.MonArch.model.cmdb;
+package com.pomoguy.MonArch.model.archcatalog;
 
 
-import com.pomoguy.MonArch.model.MonArchCommon;
+import com.pomoguy.MonArch.model.ModelCommon;
 import com.pomoguy.MonArch.model.User;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RevisionNumber;
 
 import javax.persistence.*;
 
 @Entity
 @Audited
-public class ITSystem extends MonArchCommon {
+public class ITSystem extends ModelCommon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
