@@ -5,7 +5,7 @@ import com.pomoguy.MonArch.dao.ProductRepo;
 import com.pomoguy.MonArch.model.User;
 import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
-import org.hibernate.envers.DefaultRevisionEntity;
+import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Controller
@@ -60,7 +61,6 @@ public class ProductController {
 
     @GetMapping("{product}/profile")
     public String productGetProfile(@PathVariable Product product, Model model) {
-
         model.addAttribute("isHistoryObj", false);
         model.addAttribute("product", product);
 
@@ -70,8 +70,12 @@ public class ProductController {
 
     @GetMapping("{product}/history")
     public String productGetHistory(@PathVariable Product product, Model model) {
-        AuditQuery query = AuditReaderFactory.get(em).createQuery().forRevisionsOfEntity(Product.class,false,false);
+        AuditQuery query = AuditReaderFactory.get(em)
+                .createQuery()
+                .forRevisionsOfEntity(Product.class,false,false)
+                .add(AuditEntity.property("id").eq(product.getId()));
         List<Object []> audit = query.getResultList();
+        Collections.reverse(audit);
         model.addAttribute("product", product);
         model.addAttribute("audit", audit);
         model.addAttribute("isHistoryObj", false);
@@ -80,7 +84,10 @@ public class ProductController {
 
     @GetMapping("{product}/history/{rev}/profile")
     public String historyProductGetProfile(@PathVariable Product product, @PathVariable Integer rev, Model model) {
-        AuditQuery query = AuditReaderFactory.get(em).createQuery().forEntitiesAtRevision(Product.class, rev);
+        AuditQuery query = AuditReaderFactory.get(em)
+                .createQuery()
+                .forEntitiesAtRevision(Product.class, rev)
+                .add(AuditEntity.property("id").eq(product.getId()));;
         product = (Product) query.getSingleResult();
         model.addAttribute("isHistoryObj", true);
         model.addAttribute("product", product);

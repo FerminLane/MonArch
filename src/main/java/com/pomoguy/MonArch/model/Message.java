@@ -1,14 +1,20 @@
 package com.pomoguy.MonArch.model;
 
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+
 import javax.persistence.*;
 
 @Entity
 public class Message {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(generator = "prod-generator")
+    @GenericGenerator(name = "prod-generator",
+            parameters = @Parameter(name = "prefix", value = "MES"),
+            strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
+    private String id;
 
     private String text;
     private String tag;
@@ -52,7 +58,7 @@ public class Message {
         this.text = text;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -64,7 +70,7 @@ public class Message {
         return text;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

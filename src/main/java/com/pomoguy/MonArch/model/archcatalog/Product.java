@@ -3,6 +3,7 @@ package com.pomoguy.MonArch.model.archcatalog;
 
 import com.pomoguy.MonArch.model.ModelCommon;
 import com.pomoguy.MonArch.model.User;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
@@ -13,8 +14,11 @@ import javax.persistence.*;
 public class Product extends ModelCommon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(generator = "monarch-generator")
+    @GenericGenerator(name = "monarch-generator",
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "p"),
+            strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
+    private String id;
 
 
     //private String owner;
@@ -26,11 +30,11 @@ public class Product extends ModelCommon {
     private User author;
 
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
