@@ -1,6 +1,6 @@
 <#import "*/parts/navbar.ftl" as nav>
 <#assign
-isRevision = isHistoryObj
+isRevision = isHistoryObj ??
 
 >
 
@@ -26,9 +26,9 @@ isRevision = isHistoryObj
             </div>
             <div class="col-9">
                 <#if isRevision>
+                    <h6 class="badge badge-pill badge-secondary">Revision</h6>
                     <a href="/products/${product.id}/profile" class="card-link">Вернуться назад</a>
                     <#else>
-                        <h6 class="badge badge-pill badge-success">Текущая версия</h6>
                         <a href="/products" class="card-link">Вернуться назад</a>
                 </#if>
                 <#nested>

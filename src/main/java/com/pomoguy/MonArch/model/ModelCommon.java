@@ -3,6 +3,7 @@ package com.pomoguy.MonArch.model;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,13 +22,17 @@ public abstract class ModelCommon {
     protected String updatedBy;
     protected String serviceFields;
     protected String description;
-    protected String version;
     protected String status;
+
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @NotAudited
     protected User author;
+
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    protected String version;
 
     public String getName() {
         return name;

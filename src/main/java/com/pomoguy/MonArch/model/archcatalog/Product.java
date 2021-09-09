@@ -52,8 +52,9 @@ public class Product extends ModelCommon {
 
     }
 
-    public Product(String name, User author,String description) {
+    public Product(String name,String version, User author,String description) {
         this.name = name;
+        this.version = version;
         this.author = author;
         this.description = description;
     }

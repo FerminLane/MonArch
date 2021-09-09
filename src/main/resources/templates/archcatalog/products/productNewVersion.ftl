@@ -4,14 +4,17 @@
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="formGroupExampleInput">Наименование продукта</label>
-            <input type="text" class="form-control" name="name" value="${name}" id="formGroupExampleInput"
-                   placeholder="Введите имя">
+            <input readonly type="text" class="form-control" name="name" value="${name}" id="formGroupExampleInput" placeholder="Введите имя">
+        </div>
+
+        <div class="form-group">
+            <label for="formGroupExampleInput">Версия продукта</label>
+            <input type="text" class="form-control" name="name" value="${version}" id="formGroupExampleInput" placeholder="">
         </div>
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание продукта</label>
-            <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
-                      rows="3">${description}</textarea>
+            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3">${description}</textarea>
         </div>
 
         <div class="form-group">

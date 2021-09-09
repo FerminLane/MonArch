@@ -92,7 +92,7 @@
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         </form>
     </div>
-    
+
 </@itsys.sys>
 
 <script>

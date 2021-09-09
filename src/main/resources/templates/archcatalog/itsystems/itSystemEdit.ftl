@@ -1,32 +1,15 @@
 <#import "*/parts/navbar.ftl" as nav>
-<#assign
-isEditMode = itSystem ??
->
-<#if isEditMode>
-    <#assign
-    name = itSystem.getName()
-    description = itSystem.getDescription()
-
-    >
-<#else>
-    <#assign
-    name = ""
-    description = "Введите описание"
-
-    >
-</#if>
-
 
 <@nav.nav>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="formGroupExampleInput">Наименование продукта</label>
+            <label for="formGroupExampleInput">Наименование системы</label>
             <input type="text" class="form-control" name="name" value="${name}" id="formGroupExampleInput"
                    placeholder="Введите имя">
         </div>
 
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Описание продукта</label>
+            <label for="exampleFormControlTextarea1">Описание системы</label>
             <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
                       rows="3">${description}</textarea>
         </div>

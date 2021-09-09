@@ -1,4 +1,5 @@
 <#import "*/parts/navbar.ftl" as nav>
+<#import "*/badges.ftl" as badge>
 
 <@nav.nav>
     <div class="row">
@@ -14,8 +15,8 @@
             <#list products as product>
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">"${product.name}"</h5>
-                        <h6 class="badge badge-pill badge-success">тест</h6>
+                        <h5 class="card-title">"${product.name} ${product.version}"</h5>
+                        <@badge.product status="${product.status}"/>
                         <p class="card-text">"${product.description}"</p>
                         <a href="/products/${product.id}/profile" class="card-link">Открыть карточку продукта</a>
                     </div>

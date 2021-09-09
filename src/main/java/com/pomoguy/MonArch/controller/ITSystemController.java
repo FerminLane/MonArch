@@ -41,7 +41,7 @@ public class ITSystemController {
     @GetMapping("/add")
     public String itSystemGetFormAdd(Model model) {
         model.addAttribute("products", productRepo.findAll());
-        return "archcatalog/itsystems/itSystemEdit";
+        return "archcatalog/itsystems/itSystemAdd";
     }
 
     @PostMapping("/add")
@@ -63,14 +63,12 @@ public class ITSystemController {
 
     @GetMapping("{itSystem}/profile")
     public String itSystemGetProfile(@PathVariable ITSystem itSystem, Model model) {
-        model.addAttribute("isHistoryObj", false);
         model.addAttribute("itSystem", itSystem);
         return "archcatalog/itsystems/form/itSystemProfile";
     }
 
     @GetMapping("{itSystem}/profile/edit")
     public String itSystemGetFormEdit(@PathVariable ITSystem itSystem, Model model) {
-        model.addAttribute("isHistoryObj", false);
         model.addAttribute("itSystem", itSystem);
         return "itsystems/systemEdit";
     }
@@ -95,7 +93,6 @@ public class ITSystemController {
 
     @GetMapping("{itSystem}/modules")
     public String itSystemGetModules(@PathVariable ITSystem itSystem, Model model) {
-        model.addAttribute("isHistoryObj", false);
         model.addAttribute("products", productRepo.findAll());
         model.addAttribute("itSystem", itSystem);
         return "archcatalog/itsystems/form/itSystemModules";

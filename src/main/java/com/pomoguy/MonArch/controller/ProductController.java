@@ -39,18 +39,20 @@ public class ProductController {
 
     @GetMapping("/add")
     public String productGetFormAdd(Model model) {
-        return "archcatalog/products/productEdit";
+        return "archcatalog/products/productAdd";
     }
 
     @PostMapping("/add")
     public String productAdd(@AuthenticationPrincipal User user,
                              @RequestParam String name,
+                             @RequestParam String version,
+                             @RequestParam String status,
                              @RequestParam String description,
                              Model model) {
 
-        Product product = new Product(name, user, description);
+        Product product = new Product(name, version, user, description);
 
-        product.setDescription(description);
+        product.setStatus(status);
         product.setCreateDateTime();
         product.setUpdateDateTime();
         product.setUpdatedBy(user.getUsername());
@@ -61,10 +63,30 @@ public class ProductController {
 
     @GetMapping("{product}/profile")
     public String productGetProfile(@PathVariable Product product, Model model) {
-        model.addAttribute("isHistoryObj", false);
         model.addAttribute("product", product);
 
         return "archcatalog/products/form/productProfile";
+    }
+
+    @PostMapping("{product}/profile/newversion")
+    public String productNewVersion(@PathVariable Product product,
+                                    @AuthenticationPrincipal User user,
+                                    @RequestParam String version,
+                                    Model model) {
+
+        Product newProduct = new Product(product.getName(), version, user, product.getDescription());
+        newProduct.setCreateDateTime();
+        newProduct.setUpdateDateTime();
+        newProduct.setUpdatedBy(user.getUsername());
+        newProduct.setStatus("Actual");
+        productRepo.save(newProduct);
+
+
+        product.setUpdateDateTime();
+        product.setUpdatedBy(user.getUsername());
+        product.setStatus("Stale");
+        productRepo.save(product);
+        return "redirect:/products/" + newProduct.getId() + "/profile";
     }
 
     @GetMapping("{product}/profile/edit")
@@ -101,7 +123,6 @@ public class ProductController {
         Collections.reverse(audit);
         model.addAttribute("product", product);
         model.addAttribute("audit", audit);
-        model.addAttribute("isHistoryObj", false);
         return "archcatalog/products/form/productHistory";
     }
 
@@ -124,7 +145,6 @@ public class ProductController {
         List<Object> docs = null;
         model.addAttribute("docs", docs);
         model.addAttribute("product", product);
-        model.addAttribute("isHistoryObj", false);
         return "archcatalog/products/form/productDocs";
     }
 
