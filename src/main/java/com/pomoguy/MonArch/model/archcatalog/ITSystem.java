@@ -3,41 +3,47 @@ package com.pomoguy.MonArch.model.archcatalog;
 
 import com.pomoguy.MonArch.model.ModelCommon;
 import com.pomoguy.MonArch.model.User;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Audited
 public class ITSystem extends ModelCommon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(generator = "monarch-generator")
+    @GenericGenerator(name = "monarch-generator",
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "sys"),
+            strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
+    private String id;
 
     private String buildingArea;
     private String passportName;
+    private String owner;
 
 
-    //private String owner;
+    @ManyToMany
+    @JoinTable(
+            name = "sys_consist_of",
+            joinColumns = @JoinColumn(name = "sys_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> products;
 
 
 
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    @NotAudited
-    private User author;
 
-
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,26 +63,30 @@ public class ITSystem extends ModelCommon {
         this.passportName = passportName;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
 
-
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public ITSystem() {
 
     }
 
-    public ITSystem(String name, User author, String description, String buildingArea) {
+    public ITSystem(String name, User author, String description) {
         this.name = name;
         this.author = author;
         this.description = description;
-        this.buildingArea = buildingArea;
     }
 
 }

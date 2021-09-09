@@ -7,7 +7,12 @@
                 <h1 class="display-4">"${product.name}"</h1>
                 <p class="lead">"${product.description}"</p>
             </div>
+
+
+
         </div>
-        <a href="/products/edit/${product.id}" class="card-link">Редактировать</a>
+        <a href="/products/${product.id}/edit" class="card-link">Редактировать</a>
     </div>
+
 </@prod.prod>
+

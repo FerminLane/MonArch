@@ -6,8 +6,11 @@ import com.pomoguy.MonArch.model.User;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
+import org.springframework.boot.web.servlet.server.Session;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 @Entity
 @Audited
@@ -23,12 +26,11 @@ public class Product extends ModelCommon {
 
     //private String owner;
 
+    //private boolean isActual;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToMany(mappedBy = "products")
     @NotAudited
-    private User author;
-
+    Set<ITSystem> itSystems;
 
     public String getId() {
         return id;
@@ -46,17 +48,15 @@ public class Product extends ModelCommon {
         this.author = author;
     }
 
-
-
-
     public Product() {
 
     }
 
-    public Product(String name, User author, String description) {
+    public Product(String name, User author,String description) {
         this.name = name;
         this.author = author;
         this.description = description;
     }
+
 
 }

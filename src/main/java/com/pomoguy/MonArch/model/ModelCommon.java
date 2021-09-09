@@ -2,11 +2,9 @@ package com.pomoguy.MonArch.model;
 
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Calendar;
@@ -17,12 +15,19 @@ import java.util.Calendar;
 public abstract class ModelCommon {
 
     protected String name;
+    protected String archCode;
     protected Timestamp createDateTime;
     protected Timestamp updateDateTime;
     protected String updatedBy;
     protected String serviceFields;
     protected String description;
+    protected String version;
     protected String status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @NotAudited
+    protected User author;
 
     public String getName() {
         return name;
@@ -78,6 +83,30 @@ public abstract class ModelCommon {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getArchCode() {
+        return archCode;
+    }
+
+    public void setArchCode(String archCode) {
+        this.archCode = archCode;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
 

@@ -41,7 +41,7 @@
                             Архитектурные справочники
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Информационные системы</a>
+                            <a class="dropdown-item" href="/itsystems">Информационные системы</a>
                             <a class="dropdown-item" href="/products">Продукты</a>
                         </div>
                     </li>

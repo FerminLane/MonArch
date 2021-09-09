@@ -1,8 +1,10 @@
 package com.pomoguy.MonArch.controller;
 
 import com.pomoguy.MonArch.dao.ITSystemRepo;
+import com.pomoguy.MonArch.dao.ProductRepo;
 import com.pomoguy.MonArch.model.archcatalog.ITSystem;
 import com.pomoguy.MonArch.model.User;
+import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,98 +15,139 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("/itsystem")
+@RequestMapping("/itsystems")
 //@PreAuthorize("hasAuthority('ADMIN')")
 public class ITSystemController {
 
     @Autowired
     private ITSystemRepo itSystemRepo;
+    @Autowired
+    private ProductRepo productRepo;
 
     @PersistenceContext
     private EntityManager em;
 
     @GetMapping
     public String itSystemGetList(Model model) {
-        model.addAttribute("itsystems", itSystemRepo.findAll());
-        return "itsystems/systemList";
+        model.addAttribute("itSystems", itSystemRepo.findAll());
+        return "archcatalog/itsystems/itSystemList";
     }
 
     @GetMapping("/add")
     public String itSystemGetFormAdd(Model model) {
-        return "itsystems/systemEdit";
+        model.addAttribute("products", productRepo.findAll());
+        return "archcatalog/itsystems/itSystemEdit";
     }
 
     @PostMapping("/add")
     public String itSystemAdd(@AuthenticationPrincipal User user,
                               @RequestParam String name,
                               @RequestParam String description,
-                              @RequestParam String buildingArea,
+
                               Model model) {
 
-        ITSystem itSystem = new ITSystem(name,user, description, buildingArea);
-
+        ITSystem itSystem = new ITSystem(name, user, description);
         itSystem.setCreateDateTime();
         itSystem.setUpdateDateTime();
         itSystem.setUpdatedBy(user.getUsername());
+
         itSystemRepo.save(itSystem);
-        return "redirect:/itsystem/";
+        return "redirect:/itsystems/";
     }
 
 
-    @GetMapping("{system}/profile")
-    public String itSystemGetProfile(@PathVariable ITSystem system, Model model) {
-        model.addAttribute("itsystem", system);
-        return "itsystems/form/systemProfile";
+    @GetMapping("{itSystem}/profile")
+    public String itSystemGetProfile(@PathVariable ITSystem itSystem, Model model) {
+        model.addAttribute("isHistoryObj", false);
+        model.addAttribute("itSystem", itSystem);
+        return "archcatalog/itsystems/form/itSystemProfile";
     }
 
-
-    @GetMapping("{system}/history")
-    public String itSystemGetHistory(@PathVariable ITSystem system, Model model) {
-        AuditQuery query = AuditReaderFactory.get(em).createQuery().forRevisionsOfEntity(ITSystem.class,false,false);
-        List<Object []> queryList = query.getResultList();
-        List<Object> audit = queryList.stream().map(item -> item[0]).collect(Collectors.toList());
-        model.addAttribute("itsystem", system);
-        model.addAttribute("audit", audit);
-        return "itsystems/form/systemHistory";
-    }
-
-    @GetMapping("{system}/docs")
-    public String itSystemGetDocs(@PathVariable ITSystem system, Model model) {
-        List<Object> docs = null;
-        model.addAttribute("docs", docs);
-        model.addAttribute("itsystem", system);
-        return "itsystems/form/systemDocs";
-    }
-
-
-    @GetMapping("/edit/{system}")
-    public String itSystemGetFormEdit(@PathVariable ITSystem system, Model model) {
-        model.addAttribute("itsystem", system);
+    @GetMapping("{itSystem}/profile/edit")
+    public String itSystemGetFormEdit(@PathVariable ITSystem itSystem, Model model) {
+        model.addAttribute("isHistoryObj", false);
+        model.addAttribute("itSystem", itSystem);
         return "itsystems/systemEdit";
     }
 
 
-    @PostMapping("/edit/{system}")
-    public String itSystemEdit(@PathVariable ITSystem system,
+    @PostMapping("{itSystem}/profile/edit")
+    public String itSystemEdit(@PathVariable ITSystem itSystem,
                                @AuthenticationPrincipal User user,
                                @RequestParam String name,
                                @RequestParam String description,
-                               @RequestParam String buildingArea,
                                Model model) {
 
-        system.setDescription(description);
-        system.setName(name);
-        system.setBuildingArea(buildingArea);
-        system.setUpdateDateTime();
-        system.setUpdatedBy(user.getUsername());
+        itSystem.setDescription(description);
+        itSystem.setName(name);
+        itSystem.setUpdateDateTime();
+        itSystem.setUpdatedBy(user.getUsername());
 
-        itSystemRepo.save(system);
-        return "redirect:/itsystem/" + system.getId() + "/profile";
+        itSystemRepo.save(itSystem);
+        return "redirect:/itsystem/" + itSystem.getId() + "/profile";
+    }
+
+
+    @GetMapping("{itSystem}/modules")
+    public String itSystemGetModules(@PathVariable ITSystem itSystem, Model model) {
+        model.addAttribute("isHistoryObj", false);
+        model.addAttribute("products", productRepo.findAll());
+        model.addAttribute("itSystem", itSystem);
+        return "archcatalog/itsystems/form/itSystemModules";
+    }
+
+    @PostMapping("{itSystem}/modules/add")
+    public String itSystemModulesEdit(@PathVariable ITSystem itSystem,
+                                      @AuthenticationPrincipal User user,
+                                      @RequestParam String productName,
+                                      Model model) {
+
+        itSystem.setUpdateDateTime();
+        itSystem.setUpdatedBy(user.getUsername());
+        if (itSystem.getProducts().contains(productRepo.findById(productName).get())) {
+            return "redirect:/itsystems/" + itSystem.getId() + "/modules";
+        }
+        itSystem.getProducts().add(productRepo.findById(productName).get());
+
+        itSystemRepo.save(itSystem);
+        return "redirect:/itsystems/" + itSystem.getId() + "/modules";
+    }
+
+    @PostMapping("{itSystem}/modules/remove")
+    public String itSystemModulesRemove(@PathVariable ITSystem itSystem,
+                                      @AuthenticationPrincipal User user,
+                                      @RequestParam String productName,
+                                      Model model) {
+        itSystem.setUpdateDateTime();
+        itSystem.setUpdatedBy(user.getUsername());
+
+        itSystem.getProducts().remove(productRepo.findById(productName).get());
+        itSystemRepo.save(itSystem);
+        return "redirect:/itsystems/" + itSystem.getId() + "/modules";
+    }
+
+
+    @GetMapping("{itSystem}/history")
+    public String itSystemGetHistory(@PathVariable ITSystem itSystem, Model model) {
+        AuditQuery query = AuditReaderFactory.get(em).createQuery().forRevisionsOfEntity(ITSystem.class, false, false);
+        List<Object[]> queryList = query.getResultList();
+        List<Object> audit = queryList.stream().map(item -> item[0]).collect(Collectors.toList());
+        model.addAttribute("itSystem", itSystem);
+        model.addAttribute("audit", audit);
+        return "itsystems/form/systemHistory";
+    }
+
+    @GetMapping("{itSystem}/docs")
+    public String itSystemGetDocs(@PathVariable ITSystem itSystem, Model model) {
+        List<Object> docs = null;
+        model.addAttribute("docs", docs);
+        model.addAttribute("itSystem", itSystem);
+        return "itsystems/form/systemDocs";
     }
 
 }
