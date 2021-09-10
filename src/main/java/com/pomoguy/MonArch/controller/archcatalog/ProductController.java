@@ -1,13 +1,15 @@
-package com.pomoguy.MonArch.controller;
+package com.pomoguy.MonArch.controller.archcatalog;
 
 
 import com.pomoguy.MonArch.dao.ProductRepo;
+import com.pomoguy.MonArch.dao.VendorRepo;
 import com.pomoguy.MonArch.model.User;
 import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,14 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/products")
-//@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ProductController {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private VendorRepo vendorRepo;
 
     @PersistenceContext
     private EntityManager em;
@@ -39,6 +44,7 @@ public class ProductController {
 
     @GetMapping("/add")
     public String productGetFormAdd(Model model) {
+        model.addAttribute("vendors",vendorRepo.findByStatus("Active"));
         return "archcatalog/products/productAdd";
     }
 
@@ -47,12 +53,14 @@ public class ProductController {
                              @RequestParam String name,
                              @RequestParam String version,
                              @RequestParam String status,
+                             @RequestParam String vendorId,
                              @RequestParam String description,
                              Model model) {
 
         Product product = new Product(name, version, user, description);
 
         product.setStatus(status);
+        product.setVendor(vendorRepo.findById(vendorId).get());
         product.setCreateDateTime();
         product.setUpdateDateTime();
         product.setUpdatedBy(user.getUsername());
@@ -91,6 +99,7 @@ public class ProductController {
 
     @GetMapping("{product}/profile/edit")
     public String productGetFormEdit(@PathVariable Product product, Model model) {
+        model.addAttribute("vendors",vendorRepo.findByStatus("Active"));
         model.addAttribute("product", product);
         return "archcatalog/products/productEdit";
     }
@@ -101,10 +110,12 @@ public class ProductController {
                               @AuthenticationPrincipal User user,
                               @RequestParam String name,
                               @RequestParam String description,
+                              @RequestParam String vendorId,
                               Model model) {
 
-        product.setDescription(description);
         product.setName(name);
+        product.setDescription(description);
+        product.setVendor(vendorRepo.findById(vendorId).get());
         product.setUpdateDateTime();
         product.setUpdatedBy(user.getUsername());
 

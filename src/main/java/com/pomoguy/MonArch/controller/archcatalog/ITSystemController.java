@@ -1,4 +1,4 @@
-package com.pomoguy.MonArch.controller;
+package com.pomoguy.MonArch.controller.archcatalog;
 
 import com.pomoguy.MonArch.dao.ITSystemRepo;
 import com.pomoguy.MonArch.dao.ProductRepo;
@@ -8,6 +8,7 @@ import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/itsystems")
-//@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ITSystemController {
 
     @Autowired
@@ -101,15 +102,15 @@ public class ITSystemController {
     @PostMapping("{itSystem}/modules/add")
     public String itSystemModulesEdit(@PathVariable ITSystem itSystem,
                                       @AuthenticationPrincipal User user,
-                                      @RequestParam String productName,
+                                      @RequestParam String productId,
                                       Model model) {
 
         itSystem.setUpdateDateTime();
         itSystem.setUpdatedBy(user.getUsername());
-        if (itSystem.getProducts().contains(productRepo.findById(productName).get())) {
+        if (itSystem.getProducts().contains(productRepo.findById(productId).get())) {
             return "redirect:/itsystems/" + itSystem.getId() + "/modules";
         }
-        itSystem.getProducts().add(productRepo.findById(productName).get());
+        itSystem.getProducts().add(productRepo.findById(productId).get());
 
         itSystemRepo.save(itSystem);
         return "redirect:/itsystems/" + itSystem.getId() + "/modules";
@@ -118,12 +119,12 @@ public class ITSystemController {
     @PostMapping("{itSystem}/modules/remove")
     public String itSystemModulesRemove(@PathVariable ITSystem itSystem,
                                       @AuthenticationPrincipal User user,
-                                      @RequestParam String productName,
+                                      @RequestParam String productId,
                                       Model model) {
         itSystem.setUpdateDateTime();
         itSystem.setUpdatedBy(user.getUsername());
 
-        itSystem.getProducts().remove(productRepo.findById(productName).get());
+        itSystem.getProducts().remove(productRepo.findById(productId).get());
         itSystemRepo.save(itSystem);
         return "redirect:/itsystems/" + itSystem.getId() + "/modules";
     }

@@ -17,13 +17,14 @@ public class ITSystem extends ModelCommon {
     @Id
     @GeneratedValue(generator = "monarch-generator")
     @GenericGenerator(name = "monarch-generator",
-            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "sys"),
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "is"),
             strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
     private String id;
 
     private String buildingArea;
-    private String passportName;
     private String owner;
+    private SysType sysType;
+    private String itSysCode;
 
 
     @ManyToMany
@@ -55,14 +56,6 @@ public class ITSystem extends ModelCommon {
         this.buildingArea = buildingArea;
     }
 
-    public String getPassportName() {
-        return passportName;
-    }
-
-    public void setPassportName(String passportName) {
-        this.passportName = passportName;
-    }
-
     public String getOwner() {
         return owner;
     }
@@ -77,6 +70,22 @@ public class ITSystem extends ModelCommon {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public SysType getSysType() {
+        return sysType;
+    }
+
+    public void setSysType(SysType sysType) {
+        this.sysType = sysType;
+    }
+
+    public String getItSysCode() {
+        return itSysCode;
+    }
+
+    public void setItSysCode(String itSysCode) {
+        this.itSysCode = itSysCode;
     }
 
     public ITSystem() {

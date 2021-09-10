@@ -23,6 +23,7 @@ public abstract class ModelCommon {
     protected String serviceFields;
     protected String description;
     protected String status;
+    protected Boolean isActual;
 
 
 
@@ -112,6 +113,14 @@ public abstract class ModelCommon {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public Boolean getActual() {
+        return isActual;
+    }
+
+    public void setActual(Boolean actual) {
+        isActual = actual;
     }
 }
 

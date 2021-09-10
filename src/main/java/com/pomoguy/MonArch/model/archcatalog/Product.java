@@ -12,6 +12,8 @@ import javax.persistence.*;
 import javax.servlet.http.HttpSession;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Entity
 @Audited
 public class Product extends ModelCommon {
@@ -22,6 +24,16 @@ public class Product extends ModelCommon {
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "p"),
             strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
     private String id;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "vendor_id")
+    @Audited(targetAuditMode = NOT_AUDITED)
+    private Vendor vendor;
+
+    private String platform;
+    private Integer moduleCode;
+
 
 
     //private String owner;
@@ -46,6 +58,38 @@ public class Product extends ModelCommon {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public Integer getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(Integer moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public Set<ITSystem> getItSystems() {
+        return itSystems;
+    }
+
+    public void setItSystems(Set<ITSystem> itSystems) {
+        this.itSystems = itSystems;
     }
 
     public Product() {

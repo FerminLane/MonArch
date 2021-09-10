@@ -43,6 +43,8 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/itsystems">Информационные системы</a>
                             <a class="dropdown-item" href="/products">Продукты</a>
+                            <a class="dropdown-item" href="/vendors">Вендора</a>
+                            <a class="dropdown-item" href="/platforms">Платформы</a>
                         </div>
                     </li>
                     <li class="nav-item">

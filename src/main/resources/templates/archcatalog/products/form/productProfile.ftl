@@ -4,6 +4,7 @@
 <#assign
 isRevision = isHistoryObj ??
 status = product.getStatus()
+    vendor = product.getVendor()
 >
 
 <@prod.prod>
@@ -14,12 +15,34 @@ status = product.getStatus()
                 <@badge.product status = status />
                 <p class="lead">"${product.description}"</p>
             </div>
-
-
         </div>
 
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="row">Вендор</th>
+                <th scope="row">Платформа</th>
+                <th scope="row"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="col"></th>
+                <td>${vendor.name}</td>
+                <td></td>
+                <td>@</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+
+
+
+
         <#if !isRevision>
-        <a href="/products/${product.id}/edit" class="card-link">Редактировать</a>
+        <a href="/products/${product.id}/profile/edit" class="card-link">Редактировать</a>
         <!-- Button trigger modal -->
 
             <#if status == "Actual">
@@ -27,11 +50,10 @@ status = product.getStatus()
             версию продукта
         </button>
             </#if>
-
         </#if>
     </div>
 
-    <!-- addModal -->
+    <!-- newVersionModal -->
     <div class="modal fade" id="newVersionModal" tabindex="-1" role="dialog" aria-labelledby="newVersionModalLabel"
          aria-hidden="true">
         <form action="profile/newversion" method="post">

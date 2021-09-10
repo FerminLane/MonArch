@@ -4,14 +4,23 @@
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="formGroupExampleInput">Наименование продукта</label>
-            <input type="text" class="form-control" name="name" value="${name}" id="formGroupExampleInput"
+            <input type="text" class="form-control" name="name" value="${product.name}" id="formGroupExampleInput"
                    placeholder="Введите имя">
+        </div>
+
+        <div class="form-group">
+            <label for="inputGroupSelect01">Вендор</label>
+            <select class="custom-select" name="vendorId" id="inputGroupSelect01">
+                <#list vendors as vendor>
+                    <option value="${vendor.id}">${vendor.name}</option>
+                </#list>
+            </select>
         </div>
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание продукта</label>
             <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
-                      rows="3">${description}</textarea>
+                      rows="3">${product.description}</textarea>
         </div>
 
         <div class="form-group">

@@ -22,6 +22,15 @@
         </div>
 
         <div class="form-group">
+            <label for="inputGroupSelect01">Вендор</label>
+            <select class="custom-select" name="vendorId" id="inputGroupSelect01">
+                <#list vendors as vendor>
+                    <option value="${vendor.id}">${vendor.name}</option>
+                </#list>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание продукта</label>
             <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
                       rows="3"></textarea>
