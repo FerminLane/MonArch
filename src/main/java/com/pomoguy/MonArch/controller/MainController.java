@@ -26,4 +26,9 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/forbidden")
+    public String youShallNotPass(Map<String, Object> model){
+
+        return "parts/forbidden";
+    }
 }

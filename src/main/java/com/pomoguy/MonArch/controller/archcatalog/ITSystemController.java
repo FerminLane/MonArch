@@ -4,7 +4,6 @@ import com.pomoguy.MonArch.dao.ITSystemRepo;
 import com.pomoguy.MonArch.dao.ProductRepo;
 import com.pomoguy.MonArch.model.archcatalog.ITSystem;
 import com.pomoguy.MonArch.model.User;
-import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class ITSystemController {
     private EntityManager em;
 
     @GetMapping
-    public String itSystemGetList(Model model) {
+    public String itSystemGetList(Model model){
         model.addAttribute("itSystems", itSystemRepo.findAll());
         return "archcatalog/itsystems/itSystemList";
     }
