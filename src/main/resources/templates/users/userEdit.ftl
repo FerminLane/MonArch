@@ -1,4 +1,4 @@
-<#import "parts/navbar.ftl" as nav>
+<#import "../parts/navbar.ftl" as nav>
 
 <@nav.nav>
     <div>Редактировать пользователя</div>

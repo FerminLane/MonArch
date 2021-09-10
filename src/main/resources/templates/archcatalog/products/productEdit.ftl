@@ -18,6 +18,15 @@
         </div>
 
         <div class="form-group">
+            <label for="inputGroupSelect02">Платформа</label>
+            <select class="custom-select" name="platformId" id="inputGroupSelect02">
+                <#list platforms as platform>
+                    <option value="${platform.id}">${platform.name}</option>
+                </#list>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="exampleFormControlTextarea1">Описание продукта</label>
             <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
                       rows="3">${product.description}</textarea>

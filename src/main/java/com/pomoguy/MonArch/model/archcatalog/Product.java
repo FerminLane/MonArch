@@ -31,7 +31,12 @@ public class Product extends ModelCommon {
     @Audited(targetAuditMode = NOT_AUDITED)
     private Vendor vendor;
 
-    private String platform;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "platform_id")
+    @Audited(targetAuditMode = NOT_AUDITED)
+    private Platform platform;
+
     private Integer moduleCode;
 
 
@@ -68,11 +73,11 @@ public class Product extends ModelCommon {
         this.vendor = vendor;
     }
 
-    public String getPlatform() {
+    public Platform getPlatform() {
         return platform;
     }
 
-    public void setPlatform(String platform) {
+    public void setPlatform(Platform platform) {
         this.platform = platform;
     }
 

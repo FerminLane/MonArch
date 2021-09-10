@@ -12,10 +12,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @Value("${presentations.path}")
-    private String presentationsPath;
-
-
     public void addViewControllers(ViewControllerRegistry registry) {
 
         registry.addViewController("/login").setViewName("login");
@@ -35,7 +31,5 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations(prefix + uploadPath + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/presentations/**")
-                .addResourceLocations(prefix + presentationsPath + "/");
     }
 }

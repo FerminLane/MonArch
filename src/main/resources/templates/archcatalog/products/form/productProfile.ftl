@@ -4,7 +4,8 @@
 <#assign
 isRevision = isHistoryObj ??
 status = product.getStatus()
-    vendor = product.getVendor()
+vendor = product.getVendor()
+platform = product.getPlatform()
 >
 
 <@prod.prod>
@@ -16,39 +17,22 @@ status = product.getStatus()
                 <p class="lead">"${product.description}"</p>
             </div>
         </div>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="row">Вендор</th>
-                <th scope="row">Платформа</th>
-                <th scope="row"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="col"></th>
-                <td>${vendor.name}</td>
-                <td></td>
-                <td>@</td>
-            </tr>
-
-            </tbody>
-
-        </table>
-
-
-
-
+        <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Вендор: ${vendor.name}</li>
+                <li class="list-group-item">Платформа: ${platform.name}</li>
+            </ul>
+        </div>
 
         <#if !isRevision>
-        <a href="/products/${product.id}/profile/edit" class="card-link">Редактировать</a>
-        <!-- Button trigger modal -->
+            <a href="/products/${product.id}/profile/edit" class="card-link">Редактировать</a>
+            <!-- Button trigger modal -->
 
             <#if status == "Actual">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newVersionModal">Выпустить новую
-            версию продукта
-        </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newVersionModal">
+                    Выпустить новую
+                    версию продукта
+                </button>
             </#if>
         </#if>
     </div>
