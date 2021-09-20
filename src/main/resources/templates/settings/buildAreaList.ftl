@@ -1,61 +1,56 @@
-<#import "*/itSystemForm.ftl" as itsys>
-<#import "*/../../../parts/badges.ftl" as badge>
+<#import "*/parts/navbar.ftl" as nav>
+<#import "*/parts/badges.ftl" as badge>
 
-<@itsys.sys>
+<@nav.nav>
     <div>
         <table class="table">
             <thead>
             <tr>
+                <th scope="col">ID</th>
                 <th scope="col">Имя</th>
-                <th scope="col">Версия</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Ссылка</th>
+                <th scope="col">Иконка</th>
+                <th scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
-            <#list itSystem.products as product>
+            <#list buildingareas as buildingarea>
                 <tr>
-                    <td>${product.name}</td>
-                    <td>${product.version}</td>
+                    <td>${buildingarea.id}</td>
+                    <td>${buildingarea.name}</td>
+                    <td> <h6 class="badge badge-pill badge-success" style=" background-color: ${buildingarea.color}">${buildingarea.name}</h6></td>
                     <td>
-                        <@badge.product status="${product.status}"/>
-                    </td>
-                    <td>
-                        <a href="/products/${product.id}/profile" class="card-link">Подробнее</a>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeModal" data-delprod="${product.id}">Удалить</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeModal" data-delprod="${buildingarea.id}">Удалить</button>
                     </td>
                 </tr>
-
             </#list>
             </tbody>
         </table>
     </div>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Добавить продукт</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Добавить площадку сооружения</button>
 
     <!-- addModal -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form action="modules/add" method="post">
+        <form action="buildingareas/add" method="post">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Редактировать модули</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Добавить площадку сооружения</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <select class="custom-select" name="productId" id="inputGroupSelect01">
-                                <#list products as product>
-                                    <option value="${product.id}">${product.name} ${product.version}</option>
-                                </#list>
-                            </select>
+                            <input type="text" class="form-control" id="buildingArea-name" name="buildingAreaName">
                         </div>
+
+                        <div class="form-group">
+                            <input type="color" class="form-control" id="buildingArea-color" name="buildingAreaColor">
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -70,23 +65,23 @@
     <!-- removeModal -->
     <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form action="modules/remove" method="post">
+        <form action="buildingareas/remove" method="post">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Удалить модуль</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Удалить площадку</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input hidden type="text" class="form-control" id="product-id" name="productId">
+                            <input hidden type="text" class="form-control" id="buildingArea-id" name="buildingAreaId">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-danger">Удалить модуль</button>
+                        <button type="submit" class="btn btn-danger">Удалить площадку</button>
                     </div>
                 </div>
             </div>
@@ -94,7 +89,7 @@
         </form>
     </div>
 
-</@itsys.sys>
+</@nav.nav>
 
 <script>
     $('#myModal').on('shown.bs.modal', function () {

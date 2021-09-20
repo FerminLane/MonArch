@@ -1,9 +1,10 @@
 package com.pomoguy.MonArch.controller.archcatalog;
 
 
-import com.pomoguy.MonArch.dao.PlatformRepo;
-import com.pomoguy.MonArch.dao.ProductRepo;
-import com.pomoguy.MonArch.dao.VendorRepo;
+import com.pomoguy.MonArch.controller.ControllerUtils;
+import com.pomoguy.MonArch.dao.archcatalog.PlatformRepo;
+import com.pomoguy.MonArch.dao.archcatalog.ProductRepo;
+import com.pomoguy.MonArch.dao.archcatalog.VendorRepo;
 import com.pomoguy.MonArch.model.User;
 import com.pomoguy.MonArch.model.archcatalog.Product;
 import org.hibernate.envers.AuditReaderFactory;
@@ -14,12 +15,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -48,28 +52,30 @@ public class ProductController {
 
     @GetMapping("/add")
     public String productGetFormAdd(Model model) {
-        model.addAttribute("vendors",vendorRepo.findByStatus("Active"));
-        model.addAttribute("platforms",platformRepo.findByStatus("Active"));
+        model.addAttribute("vendors", vendorRepo.findByIsActual(true));
+        model.addAttribute("platforms", platformRepo.findByIsActual(true));
         return "archcatalog/products/productAdd";
     }
 
     @PostMapping("/add")
     public String productAdd(@AuthenticationPrincipal User user,
-                             @RequestParam String name,
-                             @RequestParam String version,
-                             @RequestParam String status,
-                             @RequestParam String vendorId,
-                             @RequestParam String platformId,
-                             @RequestParam String description,
+                            @Valid Product product,
+                             BindingResult bindingResult,
                              Model model) {
 
-        Product product = new Product(name, version, user, description);
+        if (bindingResult.hasErrors()) {
 
-        product.setStatus(status);
-        product.setVendor(vendorRepo.findById(vendorId).get());
-        product.setPlatform(platformRepo.findById(platformId).get());
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return productGetFormAdd(model);
+        }
+        product.setAuthor(user);
+        //product.setVendor(vendorRepo.findById(vendorId).get());
+        //product.setPlatform(platformRepo.findById(platformId).get());
+        //product.setDescription(description);
         product.setCreateDateTime();
         product.setUpdateDateTime();
+        product.setActual(true);
         product.setUpdatedBy(user.getUsername());
         productRepo.save(product);
         return "redirect:/products/";
@@ -85,31 +91,31 @@ public class ProductController {
 
     @PostMapping("{product}/profile/newversion")
     public String productNewVersion(@PathVariable Product product,
+                                    @RequestParam Product newProduct,
                                     @AuthenticationPrincipal User user,
-                                    @RequestParam String version,
                                     Model model) {
 
-        Product newProduct = new Product(product.getName(), version, user, product.getDescription());
+        newProduct.setAuthor(user);
         newProduct.setVendor(product.getVendor());
         newProduct.setPlatform(product.getPlatform());
         newProduct.setCreateDateTime();
         newProduct.setUpdateDateTime();
         newProduct.setUpdatedBy(user.getUsername());
-        newProduct.setStatus("Actual");
+        newProduct.setActual(true);
         productRepo.save(newProduct);
 
 
         product.setUpdateDateTime();
         product.setUpdatedBy(user.getUsername());
-        product.setStatus("Stale");
+        product.setActual(false);
         productRepo.save(product);
         return "redirect:/products/" + newProduct.getId() + "/profile";
     }
 
     @GetMapping("{product}/profile/edit")
     public String productGetFormEdit(@PathVariable Product product, Model model) {
-        model.addAttribute("vendors",vendorRepo.findByStatus("Active"));
-        model.addAttribute("platforms",platformRepo.findByStatus("Active"));
+        model.addAttribute("vendors", vendorRepo.findByIsActual(true));
+        model.addAttribute("platforms", platformRepo.findByIsActual(true));
         model.addAttribute("product", product);
         return "archcatalog/products/productEdit";
     }
@@ -118,16 +124,13 @@ public class ProductController {
     @PostMapping("{product}/profile/edit")
     public String productEdit(@PathVariable Product product,
                               @AuthenticationPrincipal User user,
-                              @RequestParam String name,
-                              @RequestParam String description,
-                              @RequestParam String vendorId,
-                              @RequestParam String platformId,
+                              @RequestParam Product editedProduct,
                               Model model) {
 
-        product.setName(name);
-        product.setDescription(description);
-        product.setVendor(vendorRepo.findById(vendorId).get());
-        product.setPlatform(platformRepo.findById(platformId).get());
+        product.setName(editedProduct.getName());
+        product.setDescription(editedProduct.getDescription());
+        product.setVendor(editedProduct.getVendor());
+        product.setPlatform(editedProduct.getPlatform());
         product.setUpdateDateTime();
         product.setUpdatedBy(user.getUsername());
 

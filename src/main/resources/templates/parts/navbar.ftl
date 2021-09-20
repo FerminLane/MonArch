@@ -1,4 +1,3 @@
-<#import "auth.ftl" as a>
 <#import "common.ftl" as com>
 <#include "security.ftl">
 
@@ -29,7 +28,7 @@
                             Управление архитектурой
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Архитектурный комитет</a>
+                            <a class="dropdown-item" href="/committees">Архитектурный комитет</a>
                             <a class="dropdown-item" href="#">Архитектурный долг</a>
                         </div>
                     </li>
@@ -60,7 +59,10 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                            <@a.logout/>
+                                <form class="dropdown-item" action="/logout" method="post">
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                    <div><input class="dropdown-item" type="submit" value="Logout"/></div>
+                                </form>
                             </li>
                         </ul>
                         <#else>

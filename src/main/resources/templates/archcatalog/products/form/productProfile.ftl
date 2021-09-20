@@ -1,11 +1,9 @@
 <#import "*/productForm.ftl" as prod>
-<#import "*/badges.ftl" as badge>
+<#import "*/parts/badges.ftl" as badge>
 
 <#assign
 isRevision = isHistoryObj ??
-status = product.getStatus()
-vendor = product.getVendor()
-platform = product.getPlatform()
+actual = product.getActual()
 >
 
 <@prod.prod>
@@ -13,14 +11,14 @@ platform = product.getPlatform()
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-4">"${product.name} ${product.version}"</h1>
-                <@badge.product status = status />
+                <@badge.actual status="${product.actual?c}"/>
                 <p class="lead">"${product.description}"</p>
             </div>
         </div>
         <div class="card" style="width: 18rem;">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Вендор: ${vendor.name}</li>
-                <li class="list-group-item">Платформа: ${platform.name}</li>
+                <li class="list-group-item">${product.vendor!""}</li>
+                <li class="list-group-item">${product.platform!""}</li>
             </ul>
         </div>
 
@@ -28,7 +26,7 @@ platform = product.getPlatform()
             <a href="/products/${product.id}/profile/edit" class="card-link">Редактировать</a>
             <!-- Button trigger modal -->
 
-            <#if status == "Actual">
+            <#if actual>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newVersionModal">
                     Выпустить новую
                     версию продукта

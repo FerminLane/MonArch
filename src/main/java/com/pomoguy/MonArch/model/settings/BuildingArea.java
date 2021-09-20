@@ -1,4 +1,5 @@
-package com.pomoguy.MonArch.model.archcatalog;
+package com.pomoguy.MonArch.model.settings;
+
 
 import com.pomoguy.MonArch.model.ModelCommon;
 import com.pomoguy.MonArch.model.User;
@@ -8,19 +9,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import java.awt.*;
 
 @Entity
-public class Platform extends ModelCommon {
+public class BuildingArea extends ModelCommon {
 
     @Id
     @GeneratedValue(generator = "monarch-generator")
     @GenericGenerator(name = "monarch-generator",
-            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "pl"),
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "ba"),
             strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
     private String id;
 
     @NotBlank(message = "Обязательно к заполнению")
     private String name;
+
+    private String color;
 
 
     public String getId() {
@@ -39,13 +43,23 @@ public class Platform extends ModelCommon {
         this.name = name;
     }
 
-    public Platform() {
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+
+    public BuildingArea() {
 
     }
 
-    public Platform(String name, User author) {
+    public BuildingArea(String name, String color, User author) {
         this.name = name;
         this.author = author;
+        this.color = color;
     }
 
 }

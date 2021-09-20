@@ -8,6 +8,8 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -21,10 +23,17 @@ public class ITSystem extends ModelCommon {
             strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
     private String id;
 
+    @NotBlank(message = "Обязательно к заполнению")
+    private String name;
+
     private String buildingArea;
+
     private String owner;
+
     private SysType sysType;
+
     private String itSysCode;
+
 
 
     @ManyToMany
@@ -36,16 +45,20 @@ public class ITSystem extends ModelCommon {
 
 
 
-
-
-
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBuildingArea() {

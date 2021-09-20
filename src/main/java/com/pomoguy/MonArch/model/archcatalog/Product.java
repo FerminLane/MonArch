@@ -6,10 +6,12 @@ import com.pomoguy.MonArch.model.User;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
-import org.springframework.boot.web.servlet.server.Session;
+import org.hibernate.envers.RelationTargetAuditMode;
+
 
 import javax.persistence.*;
-import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotBlank;
+
 import java.util.Set;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -24,6 +26,13 @@ public class Product extends ModelCommon {
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "p"),
             strategy = "com.pomoguy.MonArch.generator.MonarchIdGenerator")
     private String id;
+
+    @NotBlank(message = "Обязательно к заполнению")
+    private String name;
+
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @NotBlank(message = "Обязательно к заполнению")
+    private String version;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -41,6 +50,8 @@ public class Product extends ModelCommon {
 
 
 
+
+
     //private String owner;
 
     //private boolean isActual;
@@ -55,6 +66,14 @@ public class Product extends ModelCommon {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public User getAuthor() {
@@ -97,15 +116,22 @@ public class Product extends ModelCommon {
         this.itSystems = itSystems;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public Product() {
 
     }
 
-    public Product(String name,String version, User author,String description) {
+    public Product(String name,String version) {
         this.name = name;
         this.version = version;
-        this.author = author;
-        this.description = description;
+
     }
 
 

@@ -1,7 +1,7 @@
-package com.pomoguy.MonArch.controller;
+package com.pomoguy.MonArch.controller.settings;
 
 
-import com.pomoguy.MonArch.dao.UserRepo;
+import com.pomoguy.MonArch.dao.settings.UserRepo;
 import com.pomoguy.MonArch.model.Role;
 import com.pomoguy.MonArch.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +25,14 @@ public class UserController {
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
-        return "users/userList";
+        return "settings/users/userList";
     }
 
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
-        return "users/userEdit";
+        return "settings/users/userEdit";
     }
 
     @PostMapping

@@ -1,11 +1,9 @@
 package com.pomoguy.MonArch.controller.archcatalog;
 
 
-import com.pomoguy.MonArch.dao.PlatformRepo;
-import com.pomoguy.MonArch.dao.VendorRepo;
+import com.pomoguy.MonArch.dao.archcatalog.PlatformRepo;
 import com.pomoguy.MonArch.model.User;
 import com.pomoguy.MonArch.model.archcatalog.Platform;
-import com.pomoguy.MonArch.model.archcatalog.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +24,7 @@ public class PlatformController {
 
     @GetMapping
     public String platformGetList(Model model) {
-        model.addAttribute("platforms", platformRepo.findByStatus("Active"));
+        model.addAttribute("platforms", platformRepo.findByIsActual(true));
         return "archcatalog/platforms/platformList";
     }
 
@@ -39,7 +37,7 @@ public class PlatformController {
         platform.setCreateDateTime();
         platform.setUpdateDateTime();
         platform.setUpdatedBy(user.getUsername());
-        platform.setStatus("Active");
+        platform.setActual(true);
         platformRepo.save(platform);
         return "redirect:/platforms";
     }
@@ -52,7 +50,7 @@ public class PlatformController {
         Platform platform = platformRepo.findById(platformId).get();
         platform.setUpdateDateTime();
         platform.setUpdatedBy(user.getUsername());
-        platform.setStatus("Inactive");
+        platform.setActual(false);
         platformRepo.save(platform);
         return "redirect:/platforms";
     }

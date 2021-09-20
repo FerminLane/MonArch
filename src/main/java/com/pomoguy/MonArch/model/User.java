@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,8 +15,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String username;
+
+    @NotBlank(message = "Введите пароль")
     private String password;
+
+    @Transient
+    @NotBlank(message = "Введите пароль")
+    transient private String passwordConf;
+
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -90,6 +100,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPasswordConf() {
+        return passwordConf;
+    }
+
+    public void setPasswordConf(String passwordConf) {
+        this.passwordConf = passwordConf;
     }
 }
 

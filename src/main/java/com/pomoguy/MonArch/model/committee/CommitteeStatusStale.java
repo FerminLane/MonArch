@@ -3,11 +3,12 @@ package com.pomoguy.MonArch.model.committee;
 import javax.persistence.CollectionTable;
 import javax.persistence.Table;
 
-public enum Status {
+public enum CommitteeStatusStale {
     NEW,
-    PENDING_COMMITTE,
-    PENDING_REVISION,
-    RESOLVED_DONE,
-    RESOLVED_REJECTED
+    PENDING_COMMITTEE,
+    PENDING_CORRECTION,
+    RESOLVED_REJECTED,
+    RESOLVED_DONE
+
 
 }

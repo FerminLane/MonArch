@@ -1,7 +1,7 @@
 package com.pomoguy.MonArch.controller.archcatalog;
 
-import com.pomoguy.MonArch.dao.ITSystemRepo;
-import com.pomoguy.MonArch.dao.ProductRepo;
+import com.pomoguy.MonArch.dao.archcatalog.ITSystemRepo;
+import com.pomoguy.MonArch.dao.archcatalog.ProductRepo;
 import com.pomoguy.MonArch.model.archcatalog.ITSystem;
 import com.pomoguy.MonArch.model.User;
 import org.hibernate.envers.AuditReaderFactory;

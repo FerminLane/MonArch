@@ -1,4 +1,4 @@
-package com.pomoguy.MonArch.controller;
+package com.pomoguy.MonArch.controller.settings;
 
 
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class SettingsController {
     @GetMapping
     public String healthCheck(Map<String, Object> model){
 
-        return "settings/settings";
+        return "buildingAreaList";
     }
 
 

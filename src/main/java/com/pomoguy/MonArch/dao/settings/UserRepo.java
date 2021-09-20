@@ -1,4 +1,4 @@
-package com.pomoguy.MonArch.dao;
+package com.pomoguy.MonArch.dao.settings;
 
 import com.pomoguy.MonArch.model.Message;
 import com.pomoguy.MonArch.model.User;

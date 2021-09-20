@@ -2,7 +2,7 @@ package com.pomoguy.MonArch.controller.archcatalog;
 
 
 
-import com.pomoguy.MonArch.dao.VendorRepo;
+import com.pomoguy.MonArch.dao.archcatalog.VendorRepo;
 import com.pomoguy.MonArch.model.User;
 import com.pomoguy.MonArch.model.archcatalog.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/vendors")
@@ -24,7 +22,7 @@ public class VendorController {
 
     @GetMapping
     public String vendorGetList(Model model) {
-        model.addAttribute("vendors", vendorRepo.findByStatus("Active"));
+        model.addAttribute("vendors", vendorRepo.findByIsActual(true));
         return "archcatalog/vendors/vendorList";
     }
 
@@ -37,7 +35,7 @@ public class VendorController {
         vendor.setCreateDateTime();
         vendor.setUpdateDateTime();
         vendor.setUpdatedBy(user.getUsername());
-        vendor.setStatus("Active");
+        vendor.setActual(true);
         vendorRepo.save(vendor);
         return "redirect:/vendors";
     }
@@ -50,7 +48,7 @@ public class VendorController {
         Vendor vendor = vendorRepo.findById(vendorId).get();
         vendor.setUpdateDateTime();
         vendor.setUpdatedBy(user.getUsername());
-        vendor.setStatus("Inactive");
+        vendor.setActual(false);
         vendorRepo.save(vendor);
         return "redirect:/vendors";
     }
