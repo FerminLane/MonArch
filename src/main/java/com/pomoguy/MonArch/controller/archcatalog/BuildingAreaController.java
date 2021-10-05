@@ -1,10 +1,10 @@
-package com.pomoguy.MonArch.controller.settings;
+package com.pomoguy.MonArch.controller.archcatalog;
 
 
 
-import com.pomoguy.MonArch.dao.settings.BuildingAreaRepo;
+import com.pomoguy.MonArch.dao.archcatalog.BuildingAreaRepo;
 import com.pomoguy.MonArch.model.User;
-import com.pomoguy.MonArch.model.settings.BuildingArea;
+import com.pomoguy.MonArch.model.archcatalog.BuildingArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.awt.*;
 
 @Controller
 @RequestMapping("/buildingareas")
@@ -28,7 +26,7 @@ public class BuildingAreaController {
     @GetMapping
     public String buildingAreaGetList(Model model) {
         model.addAttribute("buildingareas", buildingAreaRepo.findByIsActual(true));
-        return "settings/buildAreaList";
+        return "archcatalog/buildAreaList";
     }
 
     @PostMapping("/add")

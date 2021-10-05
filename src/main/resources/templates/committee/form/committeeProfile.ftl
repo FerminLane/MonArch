@@ -18,7 +18,7 @@ isRevision = isHistoryObj ??
             <p class="card-text">Заявитель: ${committee.applicant!""}</p>
             <p class="card-text">Тип заседания: ${committee.type!"Нет информации"}</p>
             <p class="card-text">Планируемая дата заседания: ${committee.approxDateOfMeeting!""}</p>
-            <p class="card-text">Выделеный архитектор/рецензент: ${committee.reviewer!""}</p>
+            <p class="card-text">Выделеный архитектор/рецензент: ${committee.author.username!""}</p>
 
 
             <h5 class="card-title">Проекты решений:</h5>

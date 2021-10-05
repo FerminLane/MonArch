@@ -1,4 +1,4 @@
-package com.pomoguy.MonArch.model.settings;
+package com.pomoguy.MonArch.model.archcatalog;
 
 
 import com.pomoguy.MonArch.model.ModelCommon;

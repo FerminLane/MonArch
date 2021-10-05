@@ -55,5 +55,18 @@ public class PlatformController {
         return "redirect:/platforms";
     }
 
+    @PostMapping("/edit")
+    public String platformEdit(@AuthenticationPrincipal User user,
+                                 @RequestParam String platformId,
+                                 Model model) {
+
+        Platform platform = platformRepo.findById(platformId).get();
+        platform.setUpdateDateTime();
+        platform.setUpdatedBy(user.getUsername());
+        platform.setActual(false);
+        platformRepo.save(platform);
+        return "redirect:/platforms";
+    }
+
 
 }

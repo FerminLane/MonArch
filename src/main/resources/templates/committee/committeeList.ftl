@@ -10,12 +10,12 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Повестка</th>
+                <th scope="col">Выносимый вопрос</th>
                 <th scope="col">Автор</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Планируемая дата проведения</th>
                 <th scope="col">Фактическая дата проведения</th>
-                <th scope="col">Рецензент</th>
+                <th scope="col">Курирующий архитектор</th>
                 <th scope="col">Действия</th>
             </tr>
             </thead>
@@ -28,7 +28,7 @@
                     <td><@badge.badge color="${committee.status.color}" status="${committee.status.name}"/></td>
                     <td>${committee.approxDateOfMeeting!""}</td>
                     <td>${committee.dateOfMeeting!""}</td>
-                    <td>${committee.reviewer!""}</td>
+                    <td>${committee.author.username!""}</td>
                     <td>
                         <a href="/committees/${committee.id}/profile" class="card-link">Открыть карточку заседания</a>
                     </td>

@@ -46,7 +46,11 @@ public class Product extends ModelCommon {
     @Audited(targetAuditMode = NOT_AUDITED)
     private Platform platform;
 
-    private Integer moduleCode;
+    private String orderCode;
+    private String moduleCode;
+    private String productCode;
+    private String type;
+    private Boolean isTypical;
 
 
 
@@ -100,11 +104,11 @@ public class Product extends ModelCommon {
         this.platform = platform;
     }
 
-    public Integer getModuleCode() {
+    public String getModuleCode() {
         return moduleCode;
     }
 
-    public void setModuleCode(Integer moduleCode) {
+    public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
     }
 
@@ -128,9 +132,10 @@ public class Product extends ModelCommon {
 
     }
 
-    public Product(String name,String version) {
+    public Product(String name,String version, String productCode) {
         this.name = name;
         this.version = version;
+        this.productCode = productCode;
 
     }
 

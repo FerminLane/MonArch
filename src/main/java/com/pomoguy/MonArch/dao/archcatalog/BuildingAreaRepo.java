@@ -1,9 +1,8 @@
-package com.pomoguy.MonArch.dao.settings;
+package com.pomoguy.MonArch.dao.archcatalog;
 
 
 
-import com.pomoguy.MonArch.model.archcatalog.Platform;
-import com.pomoguy.MonArch.model.settings.BuildingArea;
+import com.pomoguy.MonArch.model.archcatalog.BuildingArea;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

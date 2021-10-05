@@ -46,18 +46,6 @@
         </div>
 
         <div class="form-group">
-            <label for="applicant">Рецензент</label>
-            <input type="text" name="reviewer" id="reviewer"
-                   class="form-control ${(reviewerError??)?string('is-invalid', '')}"
-                   value="<#if committee??>${committee.reviewer}</#if>"/>
-            <#if reviewerError??>
-                <div class="invalid-feedback">
-                    ${reviewertError}
-                </div>
-            </#if>
-        </div>
-
-        <div class="form-group">
             <label for="initialDecision">Выносимые проекты решений</label>
             <textarea class="form-control ${(initialDecisionError??)?string('is-invalid', '')}" name="initialDecision"
                       id="initialDecision"

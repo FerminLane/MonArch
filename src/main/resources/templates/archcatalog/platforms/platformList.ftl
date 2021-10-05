@@ -7,6 +7,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Имя</th>
+                <th scope="col">Описание</th>
                 <th scope="col">Действия</th>
             </tr>
             </thead>
@@ -15,8 +16,10 @@
                 <tr>
                     <td>${platform.id}</td>
                     <td>${platform.name}</td>
+                    <td>${platform.description!""}</td>
                     <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeModal" data-delprod="${platform.id}">Удалить</button>
+                        <button type="button" class="oi oi-pencil" data-toggle="modal" data-target="#editModal" data-delprod="${platform.id}">Редактировать</button>
+                        <button type="button" class="oi oi-trash" data-toggle="modal" data-target="#removeModal" data-delprod="${platform.id}">Удалить</button>
                     </td>
                 </tr>
             </#list>
@@ -40,11 +43,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
+
                         <div class="form-group">
-
                             <input type="text" class="form-control" id="platform-name" name="platformName">
-
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,6 +79,45 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                         <button type="submit" class="btn btn-danger">Удалить платформу</button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        </form>
+    </div>
+
+    <!-- editModal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form action="platforms/edit" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Редактировать платформу</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="platform-name" name="platformName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Описание</label>
+                            <textarea class="form-control" name="description" id="description"
+                                      rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input hidden type="text" class="form-control" id="platform-id" name="platformId">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-danger">Применить</button>
                     </div>
                 </div>
             </div>
